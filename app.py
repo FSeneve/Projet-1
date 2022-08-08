@@ -74,8 +74,9 @@ class Artist(db.Model):
 class Show(db.Model):
       __tablename__ = 'show'
 
-      artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'), primary_key=True)
-      venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'), primary_key=True)      
+      id = db.Column(db.Integer, primary_key=True)
+      artist_id = db.Column(db.Integer, db.ForeignKey('artist.id'))
+      venue_id = db.Column(db.Integer, db.ForeignKey('venue.id'))      
       start_time = db.Column(db.DateTime, nullable=False)
 
       def __repr__(self):
@@ -164,7 +165,7 @@ def create_venue_submission():
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
   form = VenueForm()
-  if form.validate_on_submit():
+  if form.validate():
     try:
       venue = Venue(
         name= form.name.data,
@@ -285,7 +286,7 @@ def edit_artist_submission(artist_id):
   # TODO: take values from the form submitted, and update existing
   # artist record with ID <artist_id> using the new attributes
   form = ArtistForm(request.form)
-  if form.validate_on_submit():
+  if form.validate():
     try:
       artist = Artist.query.get(artist_id)
       artist.name = form.name.data
@@ -325,7 +326,7 @@ def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
   # venue record with ID <venue_id> using the new attributes
   form = VenueForm(request.form)
-  if form.validate_on_submit():
+  if form.validate():
     try: 
       venue = Venue.query.get(venue_id)
       venue.name = form.name.data
@@ -366,7 +367,7 @@ def create_artist_submission():
   # TODO: insert form data as a new Venue record in the db, instead
   # TODO: modify data to be the data object returned from db insertion
   form = ArtistForm()
-  if form.validate_on_submit():
+  if form.validate():
     try: 
       new_artist = Artist(
       name = form.name.data,

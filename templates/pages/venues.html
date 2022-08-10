@@ -1,9 +1,10 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Fyyur | Venues{% endblock %}
 {% block content %}
-{% for venue in venues %}
-<h3>{{ venue.city }}, {{ venue.state }}</h3>
+{% for area in areas %}
+<h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">
+		{% for venue in area.venues %}
 		<li>
 			<a href="/venues/{{ venue.id }}">
 				<i class="fas fa-music"></i>
@@ -11,7 +12,11 @@
 					<h5>{{ venue.name }}</h5>
 				</div>
 			</a>
+			<form class="form" method="post" action="/venues/{{ venue.id }}/delete">
+				<input type="submit" value="Delete Venue" class="btn btn-danger">
+			</form>
 		</li>
+		{% endfor %}
 	</ul>
 {% endfor %}
 {% endblock %}
